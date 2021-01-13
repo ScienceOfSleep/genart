@@ -3,38 +3,39 @@ const { lerp } = require('canvas-sketch-util/math');
 const random = require('canvas-sketch-util/random');
 const palettes = require('nice-color-palettes');
 
-//multiply radius by ~.05 to get normal circles
 const seed = random.value();
 
 const settings = {
-    dimensions: [ 1584, 396 ],
-    file: 'li-bigcircles-' + `${seed}` +'.png'
+    dimensions: [ 2048, 2048 ],
+    file: 'sketch-' + `${seed}` +'.png'
 };
 
 const sketch = () => {
+    random.setSeed(seed)
     // const frequency = 0.5;
     const palette = random.pick(palettes);
 
     const createGrid = () => {
         const points = [];
-        const count = 20;
+        const count = 40;
         for ( let x = 0; x<count; x++) {
             for ( let y=0; y<count; y++) {
                 const u = count <= 1 ? 0.5 : (x / (count - 1));
                 const v = count <= 1 ? 0.5 : (y / (count - 1));
-                const radius = Math.abs(random.noise2D(u, v));
+                const radius = Math.abs(random.noise2D(u, v)) * 0.5;
                 points.push({
                     color: random.pick(palette),
                     radius,
-                    position: [u,v]
+                    position: [ u, v ],
+                    rotation: random.noise2D(u, v),
                 });
             }
         }
         return points;
     };
 
-    const points = createGrid().filter(() => random.value() > 0.25);
-    const margin = 20;
+    const points = createGrid().filter(() => random.value() > 0.5);
+    const margin = 0;
 
     return ({ context, width, height }) => {
         context.fillStyle = '#ffffff';
@@ -45,6 +46,7 @@ const sketch = () => {
                 position,
                 radius,
                 color,
+                rotation
             } = data
 
 
@@ -53,10 +55,15 @@ const sketch = () => {
             const x = lerp(margin, width - margin, u);
             const y = lerp(margin, height - margin, v);
 
-            context.beginPath();
-            context.arc(x, y, radius * width, 0, Math.PI * 2, false);
+            context.save();
             context.fillStyle = color;
-            context.fill();
+            context.font = `${radius * width}px "Arial"`;
+            context.translate(x, y);
+            context.rotate(rotation);
+            context.fillText('/', 0, 0);
+
+            context.restore();
+
         });
     };
 };
