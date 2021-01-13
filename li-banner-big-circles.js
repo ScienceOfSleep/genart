@@ -3,8 +3,12 @@ const { lerp } = require('canvas-sketch-util/math');
 const random = require('canvas-sketch-util/random');
 const palettes = require('nice-color-palettes');
 
+const seed = random.value();
+console.log(seed);
+
 const settings = {
-    dimensions: [ 1584, 396 ]
+    dimensions: [ 1584, 396 ],
+    file: 'li-bigcircles-' + `${seed}` +'.png'
 };
 
 const sketch = () => {

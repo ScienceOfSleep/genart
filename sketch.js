@@ -3,12 +3,15 @@ const { lerp } = require('canvas-sketch-util/math');
 const random = require('canvas-sketch-util/random');
 const palettes = require('nice-color-palettes');
 
+const seed = random.value();
+console.log(seed);
 const settings = {
-  dimensions: [ 1584, 396 ]
+  dimensions: [ 2048, 2048 ],
+  file: 'sketch-' + `${seed}` +'.png'
 };
 
 const sketch = () => {
-  // random.setSeed(13)
+  random.setSeed(seed)
   // const frequency = 0.5;
   const palette = random.pick(palettes);
 
