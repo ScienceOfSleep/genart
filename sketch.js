@@ -3,11 +3,11 @@ const { lerp } = require('canvas-sketch-util/math');
 const random = require('canvas-sketch-util/random');
 const palettes = require('nice-color-palettes');
 
-const seed = random.value();
+const seed = random.getRandomSeed();
 
 const settings = {
   dimensions: [ 2048, 2048 ],
-  file: 'sketch-' + `${seed}` +'.png'
+  file: 'sketch-' + `${seed}` +'.png' //ctrl+k to commit and save with a git hash
 };
 
 const sketch = () => {
