@@ -47,7 +47,7 @@ const sketch = ({ context }) => {
     const geometry = new THREE.BoxGeometry(1, 1, 1);
 
     // Setup a palette. Choose between random or manual.
-    const palette = ["#2D9CDB", "#DB444A", "#DBD718", "#663399"]
+    const palette = ["#2D9CDB", "#DB444A", "#FFAF03", "#663399"]
     // const palette = random.pick(palettes);
 
 
@@ -78,7 +78,7 @@ const sketch = ({ context }) => {
 
     scene.add(new THREE.AmbientLight('hsl(0, 0% 30%'))
 
-    const light = new THREE.DirectionalLight('white', .75);
+    const light = new THREE.DirectionalLight('#333333', .75);
     light.position.set(1,2,3);
     scene.add(light);
 

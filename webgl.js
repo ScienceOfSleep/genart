@@ -18,7 +18,7 @@ const settings = {
   animate: true,
   // Get a WebGL canvas rather than 2D
   context: "webgl",
-  dimensions: [100, 100],
+  dimensions: [300, 300],
   fps: 12,
   duration: 5,
   // file: 'sketch-' + `${seed}` +'.png' //ctrl+k to commit and save with a git hash
@@ -47,7 +47,7 @@ const sketch = ({ context }) => {
   const geometry = new THREE.BoxGeometry(1, 1, 1);
 
   // Setup a palette. Choose between random or manual.
-  const palette = ["#2D9CDB", "#DB444A", "#DBD718", "#663399"]
+  const palette = ["#2D9CDB", "#DB444A", "#FFAF03"]
   // const palette = random.pick(palettes);
 
 
@@ -57,14 +57,14 @@ const sketch = ({ context }) => {
   });
 
   // Setup a mesh with geometry + material
-  for (let i = 0; i < 25; i++){
+  for (let i = 0; i < 20; i++){
     const material = new THREE.MeshStandardMaterial({
       color: random.pick(palette),
     });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(
        random.range(-1, 1),
-       random.range(-1, 1),
+       random.range(-.75, .75),
        random.range(-1, 1)
     )
     mesh.scale.set(
@@ -78,7 +78,7 @@ const sketch = ({ context }) => {
 
   scene.add(new THREE.AmbientLight('hsl(0, 0% 30%'))
 
-  const light = new THREE.DirectionalLight('white', .75);
+  const light = new THREE.DirectionalLight('#333333', 5);
   light.position.set(1,2,3);
   scene.add(light);
 
@@ -114,7 +114,7 @@ const sketch = ({ context }) => {
     // Update & render your scene here
     render({ playhead }) {
       // controls.update();
-      scene.rotation.y = playhead * Math.PI * 2;
+      // scene.rotation.y = playhead * Math.PI * 2;
       renderer.render(scene, camera);
     },
     // Dispose of events & renderer for cleaner hot-reloading
