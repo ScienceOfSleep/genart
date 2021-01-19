@@ -6,7 +6,7 @@ const palettes = require('nice-color-palettes');
 const seed = random.getRandomSeed();
 
 const settings = {
-  dimensions: [ 2048, 2048 ],
+  dimensions: [ 100, 100 ],
   file: 'sketch-' + `${seed}` +'.png' //ctrl+k to commit and save with a git hash
 };
 
@@ -17,12 +17,12 @@ const sketch = () => {
 
   const createGrid = () => {
     const points = [];
-    const count = 40;
+    const count = 5;
     for ( let x = 0; x<count; x++) {
       for ( let y=0; y<count; y++) {
         const u = count <= 1 ? 0.5 : (x / (count - 1));
         const v = count <= 1 ? 0.5 : (y / (count - 1));
-        const radius = Math.abs(random.noise2D(u, v)) * 0.5;
+        const radius = Math.abs(random.noise2D(u, v));
         points.push({
           color: random.pick(palette),
           radius,
@@ -60,7 +60,7 @@ const sketch = () => {
       context.font = `${radius * width}px "Arial"`;
       context.translate(x, y);
       context.rotate(rotation);
-      context.fillText('/', 0, 0);
+      context.fillText('0', 0, 0);
 
       context.restore();
 
