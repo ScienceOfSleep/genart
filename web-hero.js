@@ -7,8 +7,8 @@ const palettes = require('nice-color-palettes');
 const seed = random.value();
 
 const settings = {
-    dimensions: [ 1600, 500 ],
-    file: 'web-circle-hero-' + `${seed}` +'.png'
+    dimensions: [ 2115, 260 ],
+    file: 'web-circle-divider-' + `${seed}` +'.png'
 };
 
 const sketch = () => {
@@ -20,7 +20,7 @@ const sketch = () => {
 
     const createGrid = () => {
         const points = [];
-        const count = 15;
+        const count = 30;
         for ( let x = 0; x<count; x++) {
             for ( let y=0; y<count; y++) {
                 const u = count <= 1 ? 0.5 : (x / (count - 1));

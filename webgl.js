@@ -1,6 +1,8 @@
 // Ensure ThreeJS is in global scope for the 'examples/'
 import {random} from "canvas-sketch-util";
 import palettes from "nice-color-palettes"
+const glslify = require('glslify');
+
 
 global.THREE = require("three");
 
@@ -18,9 +20,8 @@ const settings = {
   animate: true,
   // Get a WebGL canvas rather than 2D
   context: "webgl",
-  dimensions: [300, 300],
-  fps: 12,
-  duration: 5,
+  dimensions: [512, 512],
+  duration: 24,
   // file: 'sketch-' + `${seed}` +'.png' //ctrl+k to commit and save with a git hash
 };
 
@@ -31,7 +32,7 @@ const sketch = ({ context }) => {
   });
 
   // WebGL background color
-  renderer.setClearColor('hsl(0, 0%, 100%)', 0);
+  renderer.setClearColor('hsl(0, 0%, 100%)', 1);
 
   // Setup a camera
   const camera = new THREE.OrthographicCamera();
@@ -47,19 +48,49 @@ const sketch = ({ context }) => {
   const geometry = new THREE.BoxGeometry(1, 1, 1);
 
   // Setup a palette. Choose between random or manual.
-  const palette = ["#2D9CDB", "#DB444A", "#FFAF03"]
-  // const palette = random.pick(palettes);
+  // const palette = ["#2D9CDB", "#DB444A", "#FFAF03"]
+  const palette = random.pick(palettes);
 
+  const fragmentShader = `
+  varying vec2 vUv;
+  
+  uniform vec3 color;
+  
+  void main() {
+    gl_FragColor = vec4(vec3(color * vUv.x), 1.0);
+  }
+  `
+
+  const vertexShader = glslify(`
+    varying vec2 vUv;
+    
+    uniform float time;
+    
+    #pragma glslify: noise = require('glsl-noise/simplex/4d');
+    
+    void main() {
+      vUv = uv;
+      vec3 pos = position.xyz * sin(time);
+      pos += noise(vec4(position.xyz, time));
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+    }
+  `)
 
   // Setup a material
   const material = new THREE.MeshBasicMaterial({
     color: random.pick(palette),
   });
+  const meshes = []
 
   // Setup a mesh with geometry + material
-  for (let i = 0; i < 20; i++){
-    const material = new THREE.MeshStandardMaterial({
-      color: random.pick(palette),
+  for (let i = 0; i < 35; i++){
+    const material = new THREE.ShaderMaterial({
+      fragmentShader,
+      vertexShader,
+      uniforms:{
+        color: {value: new THREE.Color(random.pick(palette))},
+        time: {value:0}
+      },
     });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(
@@ -72,13 +103,14 @@ const sketch = ({ context }) => {
         random.range(-1, 1),
         random.range(-1, 1)
     )
-    mesh.scale.multiplyScalar(0.65)
+    mesh.scale.multiplyScalar(0.45)
     scene.add(mesh);
+    meshes.push(mesh);
   }
 
-  scene.add(new THREE.AmbientLight('hsl(0, 0% 30%'))
+  scene.add(new THREE.AmbientLight('hsl(0, 0% 90%)',  .5))
 
-  const light = new THREE.DirectionalLight('#333333', 5);
+  const light = new THREE.DirectionalLight('#ffffff', 1);
   light.position.set(1,2,3);
   scene.add(light);
 
@@ -112,9 +144,14 @@ const sketch = ({ context }) => {
       camera.updateProjectionMatrix();
     },
     // Update & render your scene here
-    render({ playhead }) {
+    render({ playhead, time }) {
       // controls.update();
-      // scene.rotation.y = playhead * Math.PI * 2;
+      scene.rotation.y = playhead * Math.PI * 2;
+
+      meshes.forEach(mesh => {
+        mesh.material.uniforms.time.value = time;
+      })
+
       renderer.render(scene, camera);
     },
     // Dispose of events & renderer for cleaner hot-reloading
