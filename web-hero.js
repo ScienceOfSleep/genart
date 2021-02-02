@@ -8,13 +8,13 @@ const seed = random.value();
 
 const settings = {
     dimensions: [ 2115, 260 ],
-    file: 'skills-circle-divider-' + `${seed}` +'.png'
+    file: 'about-circle-divider-' + `${seed}` +'.png'
 };
 
 const sketch = () => {
     // const frequency = 0.5;
     const palette = random.pick(palettes);
-    palette.push("#219653");
+    palette.push("#F58443");
     // const palette = ["#2D9CDB", "#DB444A", "#FFAF03"]
 
 
