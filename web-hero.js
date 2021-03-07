@@ -7,20 +7,20 @@ const palettes = require('nice-color-palettes');
 const seed = random.value();
 
 const settings = {
-    dimensions: [ 2115, 260 ],
-    file: 'about-circle-divider-' + `${seed}` +'.png'
+    dimensions: [ 500, 500 ],
+    file: 'skills-circle-divider-mobile-' + `${seed}` +'.png'
 };
 
 const sketch = () => {
     // const frequency = 0.5;
     const palette = random.pick(palettes);
-    palette.push("#F58443");
+    palette.push("#219653");
     // const palette = ["#2D9CDB", "#DB444A", "#FFAF03"]
 
 
     const createGrid = () => {
         const points = [];
-        const count = 30;
+        const count = 15;
         for ( let x = 0; x<count; x++) {
             for ( let y=0; y<count; y++) {
                 const u = count <= 1 ? 0.5 : (x / (count - 1));
