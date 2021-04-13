@@ -68,25 +68,29 @@ const sketch = ({ context }) => {
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
+  const boysGroup = new THREE.Group()
+
   const brockMesh = new THREE.Mesh(geometry, brockMaterial);
   brockMesh.position.set(1.5, 1, 0);
   brockMesh.scale.setScalar(0.25)
-  scene.add(brockMesh)
+  boysGroup.add(brockMesh)
 
   const caseyMesh = new THREE.Mesh(geometry, caseyMaterial);
   caseyMesh.position.set(-1.5, .5, 1);
   caseyMesh.scale.setScalar(0.25)
-  scene.add(caseyMesh)
+  boysGroup.add(caseyMesh)
 
   const darrenMesh = new THREE.Mesh(geometry, darrenMaterial);
   darrenMesh.position.set(-.5, -1.5, 1);
   darrenMesh.scale.setScalar(0.25)
-  scene.add(darrenMesh)
+  boysGroup.add(darrenMesh)
 
   const joshMesh = new THREE.Mesh(geometry, joshMaterial);
   joshMesh.position.set(-1, -1, -1.5);
   joshMesh.scale.setScalar(0.25)
-  scene.add(joshMesh)
+  boysGroup.add(joshMesh)
+
+  scene.add(boysGroup)
 
   // draw each frame
   return {
@@ -99,6 +103,8 @@ const sketch = ({ context }) => {
     },
     // Update & render your scene here
     render({ time }) {
+      mesh.rotation.y = time * 0.5;
+      boysGroup.rotation.y = time;
       controls.update();
       renderer.render(scene, camera);
     },
