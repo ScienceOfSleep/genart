@@ -24,7 +24,7 @@ const sketch = ({ context }) => {
 
   // Setup a camera
   const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
-  camera.position.set(0, 0, -4);
+  camera.position.set(3, 3, -5);
   camera.lookAt(new THREE.Vector3());
 
   // Setup camera controller
@@ -36,16 +36,57 @@ const sketch = ({ context }) => {
   // Setup a geometry
   const geometry = new THREE.SphereGeometry(1, 32, 16);
 
-  const texture = new THREE.TextureLoader().load("avery.jpg");
+  const loader = new THREE.TextureLoader();
+  const texture = loader.load("avery.jpg");
+  const brockTexture = loader.load("brock.jpg")
+  const caseyTexture = loader.load("casey.jpg")
+  const darrenTexture = loader.load("darren.jpg")
+  const joshTexture = loader.load("josh.jpg")
 
   // Setup a material
   const material = new THREE.MeshBasicMaterial({
     map: texture
   });
 
+  const brockMaterial = new THREE.MeshBasicMaterial({
+    map: brockTexture
+  })
+
+  const caseyMaterial = new THREE.MeshBasicMaterial({
+    map: caseyTexture
+  })
+
+  const darrenMaterial = new THREE.MeshBasicMaterial({
+    map: darrenTexture
+  })
+
+  const joshMaterial = new THREE.MeshBasicMaterial({
+    map: joshTexture
+  })
+
   // Setup a mesh with geometry + material
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
+
+  const brockMesh = new THREE.Mesh(geometry, brockMaterial);
+  brockMesh.position.set(1.5, 1, 0);
+  brockMesh.scale.setScalar(0.25)
+  scene.add(brockMesh)
+
+  const caseyMesh = new THREE.Mesh(geometry, caseyMaterial);
+  caseyMesh.position.set(-1.5, .5, 1);
+  caseyMesh.scale.setScalar(0.25)
+  scene.add(caseyMesh)
+
+  const darrenMesh = new THREE.Mesh(geometry, darrenMaterial);
+  darrenMesh.position.set(-.5, -1.5, 1);
+  darrenMesh.scale.setScalar(0.25)
+  scene.add(darrenMesh)
+
+  const joshMesh = new THREE.Mesh(geometry, joshMaterial);
+  joshMesh.position.set(-1, -1, -1.5);
+  joshMesh.scale.setScalar(0.25)
+  scene.add(joshMesh)
 
   // draw each frame
   return {
