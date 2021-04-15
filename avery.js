@@ -42,6 +42,8 @@ const sketch = ({ context }) => {
   const caseyTexture = loader.load("casey.jpg")
   const darrenTexture = loader.load("darren.jpg")
   const joshTexture = loader.load("josh.jpg")
+  const evanTexture = loader.load("evan.jpg")
+  const nahmmyTexture = loader.load("nahmmy.jpg")
 
   // Setup a material
   const material = new THREE.MeshBasicMaterial({
@@ -62,6 +64,14 @@ const sketch = ({ context }) => {
 
   const joshMaterial = new THREE.MeshBasicMaterial({
     map: joshTexture
+  })
+
+  const evanMaterial = new THREE.MeshBasicMaterial({
+    map: evanTexture
+  })
+
+  const nahmmyMaterial = new THREE.MeshBasicMaterial({
+    map: nahmmyTexture
   })
 
   // Setup a mesh with geometry + material
@@ -89,6 +99,16 @@ const sketch = ({ context }) => {
   joshMesh.position.set(-1, -1, -1.5);
   joshMesh.scale.setScalar(0.25)
   boysGroup.add(joshMesh)
+
+  const evanMesh = new THREE.Mesh(geometry, evanMaterial);
+  evanMesh.position.set(0, -1, -1.5);
+  evanMesh.scale.setScalar(0.25)
+  boysGroup.add(evanMesh)
+
+  const nahmmyMesh = new THREE.Mesh(geometry, nahmmyMaterial);
+  nahmmyMesh.position.set(-1, 0, -1.5);
+  nahmmyMesh.scale.setScalar(0.25)
+  boysGroup.add(nahmmyMesh)
 
   scene.add(boysGroup)
 
